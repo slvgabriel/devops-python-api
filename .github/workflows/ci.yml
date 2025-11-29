@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: build
+        run: docker build -t my-app-flask .
+
+      - name: test
+        run: |
+          docker run -d --name teste my-app-flask
+          docker ps | grep test
